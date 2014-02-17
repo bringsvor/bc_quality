@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<!--
+    <record model="email.template" id="email_template_quality_action" forcecreate="True">
+      <field name="name">Notification QA Procedure</field>
+      <field name="model_id" search="[('model','=','bc_quality.procedure')]" model="ir.model"/>
+      <field name="lang">${object.user_id.partner_id.lang}</field>
+      <field name="user_signature" eval="False"/>
+      <field name="email_from">${object.user_id.user_email or ''}</field>
+      <field name="email_to">${object.user_id.user_email or ''}</field>
+      <field name="auto_delete" eval="True"/>
+      <field name="mail_server_id" search="[('name','=','localhost')]" model="ir.mail_server"/>
+      <field name="subject">QA Procedure "${object.name}": "${object.model.name}".${object.function}${object.args}</field>
+    </record>
+-->
+
+<menuitem id="menu_parent_bc_quality" name="BC Quality" />
+<menuitem id="menu_bc_quality" name="BC Quality" parent="menu_parent_bc_quality" />
+
+<record model="ir.actions.act_window" id="action_bc_quality_procedure">
+    <field name="name">Procedures</field>
+    <field name="res_model">bc_quality.procedure</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p>Shows the list of procedures.</p>
+    </field>
+</record>
+
+
+<!-- Calendar view -->
+	<record model="ir.ui.view" id="bc_quality_procedure_calendar_view">
+	    <field name="name">Procedure Calendar</field>
+	    <field name="model">bc_quality.procedure</field>
+	    <field name="arch" type="xml">
+		<calendar string="Quality Calendar"
+		date_start="next_time"
+		date_stop="next_time"
+		color="responsible_id">
+		    <field name="name"/>
+		</calendar>
+	    </field>
+	</record>
+
+<menuitem id="menu_bc_quality_procedues" name="Procedures" parent="menu_bc_quality"
+        action="action_bc_quality_procedure" />
+
+
+<record model="ir.actions.act_window" id="action_bc_quality_values">
+    <field name="name">Values</field>
+    <field name="res_model">bc_quality.value</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p>Shows the list of procedures.</p>
+    </field>
+</record>
+
+
+<menuitem id="menu_bc_quality_values" name="Values" parent="menu_bc_quality"
+        action="action_bc_quality_values" />
+
+
+<record model="ir.actions.act_window" id="action_bc_quality_limits">
+    <field name="name">Limits</field>
+    <field name="res_model">bc_quality.limit</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p>Shows the list of procedures.</p>
+    </field>
+</record>
+
+
+<menuitem id="menu_bc_quality_limits" name="Limits" parent="menu_bc_quality"
+        action="action_bc_quality_limits" />
+
+<!--
+<record model="ir.actions.act_window" id="action_bc_quality_measurement">
+    <field name="name">Measurements</field>
+    <field name="res_model">bc_quality.measurement</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p>Shows the list of procedures.</p>
+    </field>
+</record>
+
+<menuitem id="menu_bc_quality_measurement" name="Measurements" parent="menu_bc_quality"
+        action="action_bc_quality_measurement" />
+-->
+
+<record model="ir.actions.act_window" id="action_bc_quality_result">
+    <field name="name">Results</field>
+    <field name="res_model">bc_quality.result</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p>Shows the list of procedures.</p>
+    </field>
+</record>
+
+
+<menuitem id="menu_bc_quality_result" name="Results" parent="menu_bc_quality"
+        action="action_bc_quality_result" />
+
+
+    <!-- Views -->
+
+<!-- Views -->
+    <record model="ir.ui.view" id="bc_procedure_view">
+        <field name="name">Procedure View</field>
+        <field name="model">bc_quality.procedure</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Procedure Form" version="7.0">
+                <label for="name">Name</label>
+                <field name="name" />
+                <group colspan="4">
+                    <field name="description" widget="html" />
+                </group>
+                <group colspan="4">
+                    <field name="responsible_id" />
+                </group>
+<!-- http://help.openerp.com/question/42531/one2many-issue-with-view/ -->
+                    <label for="values">Values</label>
+                <group colspan="4">
+                    <field name="values" nolabel="1" colspan="4" >
+                        <tree string="Limits" editable="bottom">
+                            <field name="value_id" />
+                            <field name="limit" />
+                        </tree>
+                    </field>
+                </group>
+                <group>
+                    <field name="frequency" />
+                </group>
+                <group>
+                    <!-- <label for="last_result">Last result</label> -->
+                    <field name="last_result" />
+                    <!-- <label for="next_time">Next time</label> -->
+                    <field name="next_time" />
+                </group>
+                <!-- https://doc.openerp.com/trunk/mail/mail_openchatter_howto/ -->
+
+
+                <field name="message_ids" colspan="4" widget="mail_thread" nolabel="1"/>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Same view, read only. Maybe it's possible to inherit the other one -->
+    <record model="ir.ui.view" id="bc_procedure_view_readonly">
+        <field name="name">Procedure View</field>
+        <field name="model">bc_quality.procedure</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Procedure Form" version="7.0">
+                <field name="message_ids" colspan="4" widget="mail_thread" nolabel="1"/>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record model="ir.ui.view" id="bc_p_view">
+        <field name="name">Procedure View</field>
+        <field name="model">bc_quality.limit</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Limit Form" version="7.0">
+                <group>
+                    <label for="value_id">Value</label>
+                    <field name="value_id" />
+                    <label for="limit">Limit</label>
+                    <field name="limit" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="bc_quality_result_view">
+        <field name="name">BC QUality Result View</field>
+        <field name="model">bc_quality.result</field>
+        <field name="arch" type="xml">
+               <form string="Result Form" version="7.0">
+                   <header>
+					<button name="signal_draft" type="workflow" string="Reset to draft" states="done" />
+					<button name="signal_done" type="workflow" string="Mark as done" states="confirmed" class="oe_highlight" />
+                     <field name="state" widget="statusbar" />
+                   </header>
+                   <sheet>
+                       <div class="oe_title">
+					    <label for="name" class="oe_edit_only" />
+					    <h1><field name="procedure_id.name" /></h1>
+					    <group colspan="2" col="2">
+                                <field name="procedure_id.responsible_id" placeholder="Responsible" />
+                                <field name="performed" placeholder="Date" />
+                       </group>
+                       </div>
+                       <div>
+                           <separator string="Results" />
+                           <field name="measurement_ids"> <!--  on_change="onchange_remaining_seats(seats, attendee_ids)"> -->
+                               <tree string="" editable="bottom">
+                                   <field name="value_id" />
+                                   <field name="measurement" />
+                               </tree>
+                           </field>
+                       </div>
+
+                   </sheet>
+                       </form>
+        </field>
+    </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>KA FASKEN?
+        <!-- The individual views that make up the dashboard -->
+
+        <!--Crea Action tipo Lista para Cursos-->
+        <record model="ir.actions.act_window"
+                id="board_procedure_tree_action">
+            <field name="name">Courses</field>
+            <field name="res_model">bc_quality.procedure</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!--Crea Action tipo Calendario para Sesiones-->
+        <record model="ir.actions.act_window"
+                id="board_procedure_calendar_action">
+            <field name="name">Procedure</field>
+            <field name="res_model">bc_quality.procedure_wizard</field>
+<!--             <field name="view_type">form</field> -->
+            <field name="view_mode">calendar</field>
+            <!-- <field name="view_id" ref="bc_quality_procedure_calendar_view_wizard"/> -->
+        </record>
+
+
+        <!-- Definicion del DashBoard-->
+        <record model="ir.ui.view" id="board_bc_quality_form">
+            <field name="name">Quality Dashboard Form</field>
+            <field name="model">board.board</field>
+            <field name="arch" type="xml">
+                <form string="BC Quality Dashboard" version="7.0">
+                    <board style="1-1">
+                        <column>
+                            <!-- <action name="%(board_procedure_tree_action)d" string="Procedures" /> -->
+                            <action name="%(board_procedure_tree_action)s"  string="Procedures" />
+                        </column>
+                        <column>
+                           <!--  <action name="%(board_procedure_calendar_action)d" string="Procedures"  /> -->
+                            <action name="%(board_procedure_calendar_action)s" string="Procedures"  />
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="open_board_bc_quality">
+            <field name="name">Quality Dashboard</field>
+            <field name="res_model">board.board</field>
+            <!--field name="view_type">form</field-->
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="board_bc_quality_form"/>
+        </record>
+
+        <menuitem name="Quality Dashboard"
+                  parent="menu_bc_quality"
+                  action="open_board_bc_quality"
+                  sequence="1"
+                  id="menu_board_bc_quality"
+                  icon="terp-graph"
+
+                />
+        <!-- groups="openacademy.group_user" -->
+    </data>
+</openerp>
