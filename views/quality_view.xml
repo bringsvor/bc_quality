@@ -43,6 +43,20 @@
 	    </field>
 	</record>
 
+
+	<record model="ir.ui.view" id="bc_quality_result_calendar_view">
+	    <field name="name">Measurement Calendar</field>
+	    <field name="model">bc_quality.result</field>
+	    <field name="arch" type="xml">
+		<calendar string="Quality Measurement Calendar"
+		date_start="performed"
+		date_stop="performed"
+		color="procedure_id">
+		    <field name="name"/>
+		</calendar>
+	    </field>
+	</record>
+
 <menuitem id="menu_bc_quality_procedues" name="Procedures" parent="menu_bc_quality"
         action="action_bc_quality_procedure" />
 
@@ -75,6 +89,21 @@
 
 <menuitem id="menu_bc_quality_limits" name="Limits" parent="menu_bc_quality"
         action="action_bc_quality_limits" />
+
+
+<record model="ir.actions.act_window" id="action_bc_quality_measurements">
+    <field name="name">Measurements</field>
+    <field name="res_model">bc_quality.measurement</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p>Shows the list of actual measurements.</p>
+    </field>
+</record>
+
+<menuitem id="menu_bc_quality_measurement" name="Measurementss" parent="menu_bc_quality"
+        action="action_bc_quality_measurements" />
+
 
 <!--
 <record model="ir.actions.act_window" id="action_bc_quality_measurement">
@@ -188,23 +217,27 @@
                <form string="Result Form" version="7.0">
                    <header>
 					<button name="signal_draft" type="workflow" string="Reset to draft" states="done" />
-					<button name="signal_done" type="workflow" string="Mark as done" states="confirmed" class="oe_highlight" />
+					<button name="signal_done" type="workflow" string="Mark as done" states="draft" class="oe_highlight" />
                      <field name="state" widget="statusbar" />
                    </header>
                    <sheet>
                        <div class="oe_title">
 					    <label for="name" class="oe_edit_only" />
-					    <h1><field name="procedure_id.name" /></h1>
+                           <field name="procedure_id">
+					    <h1><field name="name" /></h1>
+                           </field>
 					    <group colspan="2" col="2">
-                                <field name="procedure_id.responsible_id" placeholder="Responsible" />
+                            <field name="procedure_id">
+                                <field name="responsible_id" placeholder="Responsible" />
+                            </field>
                                 <field name="performed" placeholder="Date" />
                        </group>
                        </div>
                        <div>
                            <separator string="Results" />
-                           <field name="measurement_ids"> <!--  on_change="onchange_remaining_seats(seats, attendee_ids)"> -->
+                           <field name="mwasurement_ids"> <!--  on_change="onchange_remaining_seats(seats, attendee_ids)"> -->
                                <tree string="" editable="bottom">
-                                   <field name="value_id" />
+                                   <!-- <field name="value_id" /> -->
                                    <field name="measurement" />
                                </tree>
                            </field>

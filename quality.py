@@ -40,6 +40,51 @@ class Procedure(osv.Model):
 
             mail_mail.send(cr, uid, [mail_id], recipient_ids=[obj.responsible_id.id], context=context)
 
+    def check_draft_result(self, cr, uid, ids, procedure, context):
+        """
+         There should always be one result in draft mode for this procedure.
+           'procedure_id' : fields.many2one('bc_quality.procedure'),
+        'performed' : fields.date('Performed'),
+        # TODO Populate with measurements from procedure
+        'mwasurement_ids' :fields.one2many('bc_quality.measurement', 'result_id', 'Measurements'),
+        'name' : fields.function(_get_name, type='string'),
+        'state' : fields.selection([('draft','Draft'), ('done','Done')], string="State"),
+        """
+
+        measurements_to_do = []
+        """
+        Measurements
+
+        'result_id' : fields.many2one('bc_quality.result'),
+        'value_id' : fields.many2one('bc_quality.value'),
+        'measurement' : fields.char('Measurement')
+    }
+        """
+
+        values = {'procedure_id' : procedure.id,
+            'performed' : procedure.next_time,
+            'measurement_ids': [(0,0, {'value_id' : 1, 'measurement' : '123.00'})]
+            }
+
+        result_model = self.pool.get('bc_quality.result')
+        print "TRYING TO CREATE", values
+        res_id = result_model.create(cr, uid, values)
+        print "Created enpty res", res_id
+
+        measurement_model = self.pool.get('bc_quality.measurement')
+        measurement_ids = []
+        for value in procedure.values:
+            print "--- DRAFT: VALUE ", value
+            # Kanskje det fungerer hvis viewet hadde fungert? (0,0, gurba)
+            measurement = {'value_id' : value.id, 'result_id' : res_id, 'measurement' : '-918' }
+            meas_id = measurement_model.create(cr, uid, measurement)
+            measurement_ids.append((1, meas_id))
+
+        print "MEASUREMENTS TO DO ", measurement_ids
+
+        result_model.write(cr, uid, res_id,{'measurement_ids' :measurement_ids } )
+
+
 
 
     def _get_last_result(self, cr, uid, ids, field, arg, context=None):
@@ -49,10 +94,12 @@ class Procedure(osv.Model):
             duration = timedelta( days=(10) )
             last_date = date.today() - duration
             result[procedure.id] = last_date.strftime("%Y-%m-%d")
+            self.check_draft_result(cr, uid, ids, procedure, context)
         self.add_follower(cr, uid, ids, context)
         self.message_post(cr, uid, ids, 'My Subject',
                           'helloooo', context=context)
         #self.send_to_responsible(cr, uid, ids, context)
+
         return result
 
     def message_get_subscribers(self, cr, uid, ids, context=None):
@@ -135,18 +182,39 @@ class Measurement(osv.Model):
     _columns = {
         'result_id' : fields.many2one('bc_quality.result'),
         'value_id' : fields.many2one('bc_quality.value'),
-        'measurement' : fields.char('Measurement')
+        'measurement' : fields.char('Measurement', required=False)
     }
 
 class Result(osv.Model):
     _name = 'bc_quality.result'
     _description = 'A set of ControlValue values, and a date'
 
+    def _get_name(self, cr, uid, ids, field, arg, context=None):
+        retval = {}
+        for result in self.browse(cr, uid, ids, context=context):
+            name = result.procedure_id.name
+            name += '_Inst'
+            retval[result.id] = name
+        return retval
+
+    def action_draft(self, cr, uid, ids, context=None):
+        print "SETTING TO DRAFT"
+        return self.write(cr, uid, ids, {'state' : 'draft'})
+
+    def action_done(self, cr, uid, ids, context=None):
+        print "SETTING TO DONE"
+        return self.write(cr, uid, ids, {'state' : 'done'})
+
     _columns = {
         'procedure_id' : fields.many2one('bc_quality.procedure'),
         'performed' : fields.date('Performed'),
-        # TODO Populate with measurements from procedure
-        'mwasurement_ids' :fields.one2many('bc_quality.measurement', 'result_id', 'Measurements'),
+        # TODO Populate with GUs from procedure
+        'mwasurement_ids' :fields.one2many('bc_quality.measurement', 'result_id', string='Measurements'),
+        'name' : fields.function(_get_name, type='char'),
         'state' : fields.selection([('draft','Draft'), ('done','Done')], string="State"),
+    }
+
+    _defaults = {
+        'state' : 'draft'
     }
 

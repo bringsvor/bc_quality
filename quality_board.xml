@@ -17,7 +17,7 @@
         <record model="ir.actions.act_window"
                 id="board_procedure_calendar_action">
             <field name="name">Procedure</field>
-            <field name="res_model">bc_quality.procedure_wizard</field>
+            <field name="res_model">bc_quality.result</field>
 <!--             <field name="view_type">form</field> -->
             <field name="view_mode">calendar</field>
             <!-- <field name="view_id" ref="bc_quality_procedure_calendar_view_wizard"/> -->

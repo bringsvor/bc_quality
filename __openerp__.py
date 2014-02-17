@@ -17,5 +17,5 @@ BC Quality
     ],
     'data' : ['views/quality_view.xml',
               'quality_board.xml',
-              'wizard/wizard.xml']
+              'workflow/workflow.xml']
 }

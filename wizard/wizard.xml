@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 <data>
-
+<!--
 	<record model="ir.ui.view" id="bc_quality_procedure_calendar_view_wizard">
 	    <field name="name">Procedure Calendar</field>
 	    <field name="model">bc_quality.procedure_wizard</field>
@@ -14,6 +14,6 @@
 		</calendar>
 	    </field>
 	</record>
-
+-->
     </data>
     </openerp>
