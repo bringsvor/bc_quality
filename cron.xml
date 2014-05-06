@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+        <record id="bc_quality_cron_email_template" model="email.template">
+            <field name="name">Procedure execution reminder</field>
+            <field name="email_from">${(object.email or '')|safe}</field>
+            <field name="subject">Procedure execution reminder ${user.company_id.name}</field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="lang">${object.lang}</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+Hello ${object.name},
+
+You have the following procedures that have to be executed within the next two week period:
+
+% macro result_table(values):
+
+<table cellspacing="1" border="1" cellpadding="4">
+    <tr>
+    </tr>
+    % for result in values:
+        <tr>
+            <td>${result.performed}</td>
+            <td>
+            <a href="${ctx["base_url"]}/#action=${ctx["action_id"]}&id=${result.id}&view_type=form">${result.name}</a>
+            </td>
+        </tr>
+    % endfor
+</table>
+% endmacro
+
+
+
+${result_table(ctx['results'])}
+
+
+Gjedna
+            ]]></field>
+        </record>
+
+        <record model="ir.cron" id="bc_quality_reminder_cron">
+            <field name="name">Procedure execution reminder</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model" eval="'bc_quality.result'"/>
+            <field name="function" eval="'cron_send_reminder'"/>
+            <field name="args" eval="'()'" />
+        </record>
+
+    </data>
+    </openerp>

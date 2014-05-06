@@ -150,7 +150,9 @@
                     <field name="description" widget="html" />
                 </group>
                 <group colspan="4">
-                    <field name="responsible_id" />
+                    <field name="responsible_id">
+                            <field name="name" />
+                    </field>
                 </group>
 <!-- http://help.openerp.com/question/42531/one2many-issue-with-view/ -->
                     <label for="values">Values</label>
@@ -317,7 +319,7 @@
 					    <label for="name" class="oe_edit_only" />
 					    <h1><field name="name" /></h1>
 					    <group colspan="2" col="2">
-                                <field name="responsible_id" placeholder="Responsible" />
+                                <field name="responsible_id_name" placeholder="Responsible" />
                                 <field name="performed" placeholder="Date" />
                                 <field name="measurement_number" />
                        </group>

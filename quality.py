@@ -311,6 +311,38 @@ class Result(osv.Model):
     _name = 'bc_quality.result'
     _description = 'A set of ControlValue values, and a date'
 
+    def cron_send_reminder(self, cr, uid, context=None):
+        if context is None:
+            context = {}
+
+        context['base_url'] = self.pool.get('ir.config_parameter').get_param(cr, uid, 'web.base.url')
+        context['action_id'] = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'bc_quality', 'action_bc_quality_result')[1]
+        template_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'bc_quality', 'bc_quality_cron_email_template')[1]
+        #for user_id, data in remind.items():
+        #    context["data"] = data
+        #    _logger.debug("Sending reminder to uid %s", user_id)
+        next_week = datetime.now()
+        next_week += timedelta(days = 14)
+
+        domain = [('performed', '<', next_week),
+            ('state', '!=', 'done')]
+        result_ids = self.search(cr, uid, domain, context=context, order='performed asc')
+        results = self.browse(cr, uid, result_ids, context)
+        responsible_results = {}
+        for res in results:
+            user_id = res.responsible_id.id
+            assert res.responsible_id.email
+            if not user_id in responsible_results:
+                responsible_results[user_id] = []
+            responsible_results[user_id].append(res)
+
+        for user_id, results in responsible_results.items():
+            context['results'] = results
+            self.pool.get('email.template').send_mail(cr, uid, template_id, user_id, force_send=True, context=context)
+
+        return True
+
+
     def _get_name(self, cr, uid, ids, field, arg, context=None):
         retval = {}
         for result in self.browse(cr, uid, ids, context=context):
@@ -328,9 +360,22 @@ class Result(osv.Model):
             procedure = procedure_model.browse(cr, uid, procedure_id, context=context)
             responsible = procedure.get_responsible()
             #print "RESPONSIBLE", responsible, responsible._columns
+            retval[result.id] = responsible
+
+        return retval
+
+    def _get_responsible_name(self, cr, uid, ids, field, arg, context=None):
+        retval = {}
+        procedure_model = self.pool.get('bc_quality.procedure')
+        for result in self.browse(cr, uid, ids, context=context):
+            procedure_id = result.procedure_id.id
+            procedure = procedure_model.browse(cr, uid, procedure_id, context=context)
+            responsible = procedure.get_responsible()
+            #print "RESPONSIBLE", responsible, responsible._columns
             retval[result.id] = responsible.name
 
         return retval
+
 
     def action_draft(self, cr, uid, ids, context=None):
         print "SETTING TO DRAFT"
@@ -380,6 +425,7 @@ class Result(osv.Model):
         'measurement_number' : fields.char('Measurement ID'),
         'name' : fields.function(_get_name, type='char', string='Name'),
         'responsible_id' : fields.function(_get_responsible, type='char', string='Responsible'),
+        'responsible_id_name' : fields.function(_get_responsible_name, type='char', string='Responsible person'),
         'state' : fields.selection([('draft','Draft'), ('error', 'Error'), ('done','Done')], string="State"),
     }
 
