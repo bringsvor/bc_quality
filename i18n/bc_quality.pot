@@ -1,0 +1,347 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* bc_quality
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0-20140120-002508\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-10 19:24+0000\n"
+"PO-Revision-Date: 2014-03-10 19:24+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: bc_quality
+#: selection:bc_quality.procedure,frequency:0
+msgid "Quaterly"
+msgstr "Quaterly"
+
+#. module: bc_quality
+#: model:ir.ui.menu,name:bc_quality.menu_bc_quality_measurement
+msgid "Measurementss"
+msgstr "Measurementss"
+
+#. module: bc_quality
+#: help:bc_quality.procedure,name:0
+msgid "A descriptive name for the procedure to be followed"
+msgstr "A descriptive name for the procedure to be followed"
+
+#. module: bc_quality
+#: view:bc_quality.measurement:0
+#: field:bc_quality.result,mwasurement_ids:0
+#: model:ir.actions.act_window,name:bc_quality.action_bc_quality_measurements
+msgid "Measurements"
+msgstr "Measurements"
+
+#. module: bc_quality
+#: view:bc_quality.procedure:0
+#: view:bc_quality.value:0
+#: model:ir.actions.act_window,name:bc_quality.action_bc_quality_values
+#: model:ir.ui.menu,name:bc_quality.menu_bc_quality_values
+msgid "Values"
+msgstr "Values"
+
+#. module: bc_quality
+#: model:ir.actions.act_window,name:bc_quality.open_board_bc_quality
+#: model:ir.ui.menu,name:bc_quality.menu_board_bc_quality
+msgid "Quality Dashboard"
+msgstr "Quality Dashboard"
+
+#. module: bc_quality
+#: view:bc_quality.result:0
+msgid "Mark as done"
+msgstr "Mark as done"
+
+#. module: bc_quality
+#: field:bc_quality.result,state:0
+msgid "State"
+msgstr "State"
+
+#. module: bc_quality
+#: view:bc_quality.result:0
+msgid "Reset to draft"
+msgstr "Reset to draft"
+
+#. module: bc_quality
+#: selection:bc_quality.result,state:0
+msgid "Draft"
+msgstr "Draft"
+
+#. module: bc_quality
+#: field:bc_quality.result,measurement_number:0
+msgid "Measurement ID"
+msgstr "Measurement ID"
+
+#. module: bc_quality
+#: help:bc_quality.value,name:0
+msgid "A name for the value"
+msgstr "A name for the value"
+
+#. module: bc_quality
+#: model:ir.actions.act_window,help:bc_quality.action_bc_quality_measurements
+msgid "<p>Shows the list of actual measurements.</p>\n"
+"    "
+msgstr "<p>Shows the list of actual measurements.</p>\n"
+"    "
+
+#. module: bc_quality
+#: model:ir.ui.menu,name:bc_quality.menu_bc_quality
+#: model:ir.ui.menu,name:bc_quality.menu_parent_bc_quality
+msgid "BC Quality"
+msgstr "BC Quality"
+
+#. module: bc_quality
+#: field:bc_quality.procedure,values:0
+msgid "Values to be measured"
+msgstr "Values to be measured"
+
+#. module: bc_quality
+#: model:ir.model,name:bc_quality.model_bc_quality_value
+msgid "A measurement that can be performed"
+msgstr "A measurement that can be performed"
+
+#. module: bc_quality
+#: field:bc_quality.procedure,next_time:0
+msgid "Next test"
+msgstr "Next test"
+
+#. module: bc_quality
+#: field:bc_quality.procedure,description:0
+msgid "Description"
+msgstr "Description"
+
+#. module: bc_quality
+#: view:bc_quality.result:0
+msgid "Quality Measurement Calendar"
+msgstr "Quality Measurement Calendar"
+
+#. module: bc_quality
+#: field:bc_quality.procedure,message_unread:0
+msgid "Unread Messages"
+msgstr "Unread Messages"
+
+#. module: bc_quality
+#: field:bc_quality.measurement,result_id:0
+#: field:bc_quality.value,limit_id:0
+#: field:bc_quality.value,measurement_id:0
+msgid "unknown"
+msgstr "unknown"
+
+#. module: bc_quality
+#: view:board.board:0
+msgid "BC Quality Dashboard"
+msgstr "BC Quality Dashboard"
+
+#. module: bc_quality
+#: view:bc_quality.limit:0
+msgid "Limit Form"
+msgstr "Limit Form"
+
+#. module: bc_quality
+#: help:bc_quality.procedure,description:0
+msgid "A description of how to execute the procedure"
+msgstr "A description of how to execute the procedure"
+
+#. module: bc_quality
+#: model:ir.model,name:bc_quality.model_bc_quality_limit
+msgid "A limit value for a measurement"
+msgstr "A limit value for a measurement"
+
+#. module: bc_quality
+#: help:bc_quality.procedure,message_ids:0
+msgid "Messages and communication history"
+msgstr "Messages and communication history"
+
+#. module: bc_quality
+#: selection:bc_quality.procedure,frequency:0
+msgid "Monthly"
+msgstr "Monthly"
+
+#. module: bc_quality
+#: field:bc_quality.procedure,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Is a Follower"
+
+#. module: bc_quality
+#: model:ir.actions.act_window,help:bc_quality.action_bc_quality_limits
+#: model:ir.actions.act_window,help:bc_quality.action_bc_quality_procedure
+#: model:ir.actions.act_window,help:bc_quality.action_bc_quality_result
+#: model:ir.actions.act_window,help:bc_quality.action_bc_quality_values
+msgid "<p>Shows the list of procedures.</p>\n"
+"    "
+msgstr "<p>Shows the list of procedures.</p>\n"
+"    "
+
+#. module: bc_quality
+#: view:bc_quality.result:0
+msgid "Date"
+msgstr "Date"
+
+#. module: bc_quality
+#: view:board.board:0
+#: model:ir.actions.act_window,name:bc_quality.action_bc_quality_procedure
+#: model:ir.ui.menu,name:bc_quality.menu_bc_quality_procedues
+msgid "Procedures"
+msgstr "Procedures"
+
+#. module: bc_quality
+#: view:bc_quality.result:0
+msgid "Result Form"
+msgstr "Result Form"
+
+#. module: bc_quality
+#: view:bc_quality.procedure:0
+msgid "Quality Calendar"
+msgstr "Quality Calendar"
+
+#. module: bc_quality
+#: model:ir.model,name:bc_quality.model_bc_quality_measurement
+msgid "An actual measurement"
+msgstr "An actual measurement"
+
+#. module: bc_quality
+#: view:bc_quality.procedure:0
+#: field:bc_quality.procedure,name:0
+#: field:bc_quality.result,name:0
+#: field:bc_quality.value,name:0
+msgid "Name"
+msgstr "Name"
+
+#. module: bc_quality
+#: view:bc_quality.procedure:0
+#: model:ir.actions.act_window,name:bc_quality.action_bc_quality_limits
+#: model:ir.ui.menu,name:bc_quality.menu_bc_quality_limits
+msgid "Limits"
+msgstr "Limits"
+
+#. module: bc_quality
+#: view:bc_quality.procedure:0
+msgid "Procedure Form"
+msgstr "Procedure Form"
+
+#. module: bc_quality
+#: field:bc_quality.procedure,message_ids:0
+msgid "Messages"
+msgstr "Messages"
+
+#. module: bc_quality
+#: model:ir.model,name:bc_quality.model_bc_quality_procedure
+#: model:ir.model,name:bc_quality.model_bc_quality_procedure_wizard
+msgid "A procedure to follow for quality assurance"
+msgstr "A procedure to follow for quality assurance"
+
+#. module: bc_quality
+#: selection:bc_quality.procedure,frequency:0
+msgid "Daily"
+msgstr "Daily"
+
+#. module: bc_quality
+#: field:bc_quality.procedure,message_summary:0
+msgid "Summary"
+msgstr "Summary"
+
+#. module: bc_quality
+#: model:ir.actions.act_window,name:bc_quality.board_procedure_tree_action
+msgid "Courses"
+msgstr "Courses"
+
+#. module: bc_quality
+#: view:bc_quality.limit:0
+#: field:bc_quality.limit,limit:0
+msgid "Limit"
+msgstr "Limit"
+
+#. module: bc_quality
+#: view:bc_quality.limit:0
+#: field:bc_quality.limit,value_id:0
+#: field:bc_quality.measurement,value_id:0
+#: view:bc_quality.value:0
+msgid "Value"
+msgstr "Value"
+
+#. module: bc_quality
+#: selection:bc_quality.procedure,frequency:0
+msgid "Bi Weekly"
+msgstr "Bi Weekly"
+
+#. module: bc_quality
+#: help:bc_quality.procedure,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "If checked new messages require your attention."
+
+#. module: bc_quality
+#: field:bc_quality.limit,procedure_id:0
+#: field:bc_quality.result,procedure_id:0
+#: model:ir.actions.act_window,name:bc_quality.board_procedure_calendar_action
+msgid "Procedure"
+msgstr "Procedure"
+
+#. module: bc_quality
+#: selection:bc_quality.procedure,frequency:0
+msgid "Yearly"
+msgstr "Yearly"
+
+#. module: bc_quality
+#: view:bc_quality.result:0
+#: model:ir.actions.act_window,name:bc_quality.action_bc_quality_result
+#: model:ir.ui.menu,name:bc_quality.menu_bc_quality_result
+msgid "Results"
+msgstr "Results"
+
+#. module: bc_quality
+#: help:bc_quality.procedure,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+
+#. module: bc_quality
+#: field:bc_quality.procedure,frequency:0
+msgid "Frequency"
+msgstr "Frequency"
+
+#. module: bc_quality
+#: selection:bc_quality.result,state:0
+msgid "Done"
+msgstr "Done"
+
+#. module: bc_quality
+#: field:bc_quality.result,performed:0
+msgid "Performed"
+msgstr "Performed"
+
+#. module: bc_quality
+#: view:bc_quality.measurement:0
+#: field:bc_quality.measurement,measurement:0
+msgid "Measurement"
+msgstr "Measurement"
+
+#. module: bc_quality
+#: field:bc_quality.procedure,last_result:0
+msgid "Last result"
+msgstr "Last result"
+
+#. module: bc_quality
+#: field:bc_quality.procedure,message_follower_ids:0
+msgid "Followers"
+msgstr "Followers"
+
+#. module: bc_quality
+#: model:ir.model,name:bc_quality.model_bc_quality_result
+msgid "A set of ControlValue values, and a date"
+msgstr "A set of ControlValue values, and a date"
+
+#. module: bc_quality
+#: field:bc_quality.procedure,responsible_id:0
+#: view:bc_quality.result:0
+#: field:bc_quality.result,responsible_id:0
+msgid "Responsible"
+msgstr "Responsible"
+
+#. module: bc_quality
+#: selection:bc_quality.procedure,frequency:0
+msgid "Weekly"
+msgstr "Weekly"
+

@@ -124,7 +124,7 @@
     <field name="name">Results</field>
     <field name="res_model">bc_quality.result</field>
     <field name="view_type">form</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">tree,calendar,form</field>
     <field name="help" type="html">
         <p>Shows the list of procedures.</p>
     </field>
@@ -179,19 +179,107 @@
         </field>
     </record>
 
+<record model="ir.ui.view" id="brement_tree_view">
+    <field name="name">Measurement View</field>
+    <field name="model">bc_quality.measurement</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Measurements">
+        <field name="value_id" />
+        <field name="measurement" />
+        </tree>
+    </field>
+</record>
 
-    <!-- Same view, read only. Maybe it's possible to inherit the other one -->
-    <record model="ir.ui.view" id="bc_procedure_view_readonly">
-        <field name="name">Procedure View</field>
-        <field name="model">bc_quality.procedure</field>
-        <field name="type">form</field>
-        <field name="arch" type="xml">
-            <form string="Procedure Form" version="7.0">
-                <field name="message_ids" colspan="4" widget="mail_thread" nolabel="1"/>
-            </form>
-        </field>
+
+
+<record model="ir.ui.view" id="bc_quality_measurement_form_view">
+    <field name="name">Measurement View</field>
+    <field name="model">bc_quality.measurement</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Measurement">
+        <field name="value_id" />
+        <field name="measurement" />
+        </form>
+    </field>
     </record>
 
+
+
+<record model="ir.ui.view" id="bc_quality_value_tree_view">
+    <field name="name">Value View</field>
+    <field name="model">bc_quality.value</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <tree string="Values">
+            <field name="name" />
+        </tree>
+    </field>
+</record>
+
+
+
+<record model="ir.ui.view" id="bc_quality_result_tree_view">
+    <field name="name">Result View</field>
+    <field name="model">bc_quality.result</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <!-- ="colors">grey:state=='cancel';orange:state in ('waiting_date','manual');red:state in ('invoice_except','shipping_except')</attribute> -->
+        <tree string="Results" colors="gray: state=='draft';green: state=='done';red: state=='error'">
+            <field name="measurement_number" />
+            <field name="procedure_id">
+                <field name="name" />
+            </field>
+            <field name="performed" />
+            <field name="state" invisible="0"/>
+        </tree>
+    </field>
+</record>
+
+
+<record model="ir.ui.view" id="bc_quality_limit_tree_view">
+    <field name="name">Limit View</field>
+    <field name="model">bc_quality.limit</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+        <!-- ="colors">grey:state=='cancel';orange:state in ('waiting_date','manual');red:state in ('invoice_except','shipping_except')</attribute> -->
+        <tree string="Limits">
+            <field name="procedure_id">
+                <field name="name" />
+            </field>
+            <field name="value_id" />
+            <field name="limit" />
+        </tree>
+    </field>
+</record>
+
+    <!--
+    <record model="ir.ui.view" id="bc_quality_result_view">
+        <field name="name">BC QUality Result View</field>
+        <field name="model">bc_quality.result</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Measur">   colors="#0000ff:state='done';red:state='draft'" toolbar="True">
+             <field name="name" />
+            <field name="performed" />
+                <field name="state" invisible="1"/>
+        </tree>
+        </field>
+    </record>
+-->
+
+
+<record model="ir.ui.view" id="bc_quality_value_form_view">
+    <field name="name">Value View</field>
+    <field name="model">bc_quality.value</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+        <form string="Value">
+            <field name="name" />
+        </form>
+    </field>
+    </record>
 
 
     <record model="ir.ui.view" id="bc_p_view">
@@ -210,34 +298,35 @@
         </field>
     </record>
 
+
     <record model="ir.ui.view" id="bc_quality_result_view">
         <field name="name">BC QUality Result View</field>
         <field name="model">bc_quality.result</field>
+        <field name="type">form</field>
         <field name="arch" type="xml">
                <form string="Result Form" version="7.0">
                    <header>
-					<button name="signal_draft" type="workflow" string="Reset to draft" states="done" />
+                       <div>
+                       <field name="state" widget="statusbar" />
+					<button name="signal_draft" type="workflow" string="Reset to draft" states="done,error" />
 					<button name="signal_done" type="workflow" string="Mark as done" states="draft" class="oe_highlight" />
-                     <field name="state" widget="statusbar" />
+                       </div>
                    </header>
                    <sheet>
                        <div class="oe_title">
 					    <label for="name" class="oe_edit_only" />
-                           <field name="procedure_id">
 					    <h1><field name="name" /></h1>
-                           </field>
 					    <group colspan="2" col="2">
-                            <field name="procedure_id">
                                 <field name="responsible_id" placeholder="Responsible" />
-                            </field>
                                 <field name="performed" placeholder="Date" />
+                                <field name="measurement_number" />
                        </group>
                        </div>
                        <div>
                            <separator string="Results" />
-                           <field name="mwasurement_ids"> <!--  on_change="onchange_remaining_seats(seats, attendee_ids)"> -->
+                           <field name="measurement_ids"> <!--  on_change="onchange_remaining_seats(seats, attendee_ids)"> -->
                                <tree string="" editable="bottom">
-                                   <!-- <field name="value_id" /> -->
+                                   <field name="value_id" />
                                    <field name="measurement" />
                                </tree>
                            </field>
@@ -247,6 +336,24 @@
                        </form>
         </field>
     </record>
+
+    <!-- Sequence numbering -->
+     <!-- http://help.openerp.com/question/21501/how-can-i-create-employee-code-in-a-sequence-field/ -->
+        <record model="ir.sequence.type" id="bc_quality_measurement_code_sequence">
+            <field name="name">Code sequence bc_quality measurement</field>
+            <field name="code">bc_quality.measurement.sequence</field>
+        </record>
+        <record model="ir.sequence" id="bc_quality_measurement_sequence">
+            <field name="name">Sequence For measurements</field>
+            <field name="code">bc_quality.measurement.sequence</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">MEAS</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1000</field>
+            <field name="implementation">standard</field>
+        </record>
+
+
 
     </data>
 </openerp>

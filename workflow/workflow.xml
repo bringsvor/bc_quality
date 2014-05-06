@@ -30,6 +30,17 @@
         <field eval="1" name="flow_start"/>
     </record>
 
+    <record id="bc_quality.action_error" model="workflow.activity">
+        <field name="kind">function</field>
+        <field name="name">error</field>
+        <field name="join_mode">XOR</field>
+        <field model="workflow" name="wkf_id" ref="wkf_bc_quality_result" />
+        <field name="split_mode">XOR</field>
+        <field name="action">action_error()</field>
+        <field name="flow_stop" eval="0" />
+        <field eval="0" name="flow_start"/>
+    </record>
+
 
      <record id="bc_quality_workflow_transition_0" model="workflow.transition">
 			<field name="signal">signal_done</field>
@@ -45,6 +56,13 @@
 			<field name="condition">True</field>
 		</record>
 
+
+     <record id="bc_quality_workflow_transition_2" model="workflow.transition">
+			<field name="signal">signal_draft</field>
+			<field model="workflow.activity" name="act_from" ref="bc_quality.action_error"/>
+			<field model="workflow.activity" name="act_to" ref="bc_quality.action_draft"/>
+			<field name="condition">True</field>
+		</record>
 
 </data>
 </openerp>
