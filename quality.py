@@ -314,7 +314,7 @@ class Result(osv.Model):
     def cron_send_reminder(self, cr, uid, context=None):
         if context is None:
             context = {}
-
+        print "CRON"
         context['base_url'] = self.pool.get('ir.config_parameter').get_param(cr, uid, 'web.base.url')
         context['action_id'] = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'bc_quality', 'action_bc_quality_result')[1]
         template_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'bc_quality', 'bc_quality_cron_email_template')[1]

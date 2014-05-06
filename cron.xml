@@ -17,18 +17,13 @@ You have the following procedures that have to be executed within the next two w
 
 % macro result_table(values):
 
-<table cellspacing="1" border="1" cellpadding="4">
-    <tr>
-    </tr>
     % for result in values:
-        <tr>
-            <td>${result.performed}</td>
-            <td>
-            <a href="${ctx["base_url"]}/#action=${ctx["action_id"]}&id=${result.id}&view_type=form">${result.name}</a>
-            </td>
-        </tr>
+       <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+                &nbsp;&nbsp;<strong>REFERENCES</strong><br />
+                &nbsp;&nbsp;Procedure due date: <strong>${result.performed}</strong><br />
+                &nbsp;&nbsp;Procedure name: <strong><a href="${ctx["base_url"]}/#action=${ctx["action_id"]}&id=${result.id}&view_type=form">${result.name}</a></strong><br />
+       </p>
     % endfor
-</table>
 % endmacro
 
 
@@ -43,7 +38,7 @@ Gjedna
         <record model="ir.cron" id="bc_quality_reminder_cron">
             <field name="name">Procedure execution reminder</field>
             <field name="interval_number">1</field>
-            <field name="interval_type">minutes</field>
+            <field name="interval_type">hours</field>
             <field name="numbercall">-1</field>
             <field name="doall" eval="False"/>
             <field name="model" eval="'bc_quality.result'"/>
