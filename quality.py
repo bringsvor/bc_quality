@@ -330,15 +330,33 @@ class Result(osv.Model):
         results = self.browse(cr, uid, result_ids, context)
         responsible_results = {}
         for res in results:
-            user_id = res.responsible_id.id
             assert res.responsible_id.email
-            if not user_id in responsible_results:
-                responsible_results[user_id] = []
-            responsible_results[user_id].append(res)
+            if res.responsible_id.prefer_sms:
+                assert res.responsible_id.mobile
 
-        for user_id, results in responsible_results.items():
+            if not res.responsible_id in responsible_results:
+                responsible_results[res.responsible_id] = []
+            responsible_results[res.responsible_id].append(res)
+
+        for responsible_id, results in responsible_results.items():
             context['results'] = results
-            self.pool.get('email.template').send_mail(cr, uid, template_id, user_id, force_send=True, context=context)
+            if responsible_id.prefer_sms:
+                print "SENDING SMS"
+                # sms_template_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'keysms_template', 'bc_quality_cron_sms_template')[1]
+                prox = self.pool.get('keysms.template')
+                domain = [('model', '=', 'res.partner')]
+
+                sms_template_ids = prox.search(cr, uid, domain, context=context)
+                assert len(sms_template_ids) == 1
+
+                #msg = self.pool.get('keysms.template').render(cr, uid, sms_template_id, user_id, context=context)
+                msg = self.pool.get('keysms.template').render(cr, uid, sms_template_ids[0], 'res.partner', responsible_id, context=context)
+                self.pool.get('keysms.template').send_sms(cr, uid, msg, [responsible_id.mobile], context)
+                print "MSG", msg
+            else:
+                user_id = responsible_id.id
+                self.pool.get('email.template').send_mail(cr, uid, template_id, user_id, force_send=True, context=context)
+
 
         return True
 

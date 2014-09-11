@@ -35,10 +35,24 @@ Gjedna
             ]]></field>
         </record>
 
+
+        <record id="bc_quality_cron_sms_template" model="keysms.template">
+            <field name="name">Procedure execution reminder SMS</field>
+            <field name="subject">Procedure execution reminder ${user.company_id.name}</field>
+            <field name="mobile_to">${object.mobile|safe}</field>
+            <field name="lang">${object.lang}</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body"><![CDATA[
+Hello ${object.name},
+            ]]></field>
+        </record>
+
+
         <record model="ir.cron" id="bc_quality_reminder_cron">
             <field name="name">Procedure execution reminder</field>
             <field name="interval_number">1</field>
-            <field name="interval_type">hours</field>
+            <field name="interval_type">minutes</field>
             <field name="numbercall">-1</field>
             <field name="doall" eval="False"/>
             <field name="model" eval="'bc_quality.result'"/>
