@@ -1,3 +1,2 @@
+__author__ = 'tbri'
 import quality
-import wizard
-import partner

@@ -1,0 +1,155 @@
+<odoo>
+    <record id="quality_dashboard_kanban_view" model="ir.ui.view">
+        <field name="name">quality.dashboard.kanban</field>
+        <field name="model">bc_quality.control_procedure</field>
+        <field name="arch" type="xml">
+            <kanban create="true" class="oe_background_grey o_kanban_dashboard o_account_kanban">
+                <field name="id"/>
+                <field name="color"/>
+                <field name="state"/>
+                <field name="kanban_dashboard"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="o_kanban_flexbox #{kanban_color(record.color.raw_value)} oe_kanban_global_click">
+                            <t t-value="JSON.parse(record.kanban_dashboard.raw_value)" t-set="dashboard"/>
+                            <t t-call="JournalTop"/>
+                            <div class="container o_kanban_card_content o_visible">
+                                <div class="row">
+                                    <t t-call="JournalBodyBankCash" />
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_manage_pane o_invisible">
+                                <t t-call="JournalManage"/>
+                            </div>
+
+                        </div>
+                    </t>
+
+                    <t t-name="JournalBodyBankCash">
+                        <div class="col-xs-6 o_kanban_primary_left">
+                            <div class="row">
+                                    <div class="col-xs-6">
+                                        <span title="Responsible">Responsible</span>
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <span><field name="responsible" /></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <span title="Type">Type</span>
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <span><field name="type" /></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <span title="Type">Frequency</span>
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <span><field name="frequency" /></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <span title="Type">Last execution</span>
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <span><field name="last_date" /></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <span title="Type">Next execution</span>
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <span><field name="next_date" /></span>
+                                    </div>
+                                </div>
+
+                        </div>
+                    </t>
+
+                    <t t-name="JournalTop">
+                        <div class="o_kanban_card_header">
+                            <div class="o_kanban_card_header_title">
+                                <div class="o_primary">
+                                    <a type="object" name="open_action">
+                                        <field name="name"/>
+                                    </a>
+                                </div>
+                                <div class="o_secondary">
+                                    <i class="fa fa-exclamation" /> <field name="state"/>
+                                </div>
+                            </div>
+                            <div class="o_kanban_manage_button_section">
+                                <a class="o_kanban_manage_toggle_button" href="#">More
+                                    <i class="fa fa-caret-down"/>
+                                </a>
+                            </div>
+                        </div>
+                    </t>
+
+                    <t t-name="JournalManage">
+                        <div>
+                            <div class="col-xs-4 o_kanban_card_manage_section o_kanban_manage_view">
+                                <div class="o_kanban_card_manage_title">
+                                    <span>New</span>
+                                </div>
+                                <div>
+                                    <t t-foreach="dashboard.registration_forms" t-as="f">
+                                        <a href="f">Take survey</a>
+                                        <field name="registration_forms">
+                                            <tree string="hei" name="hei">
+                                                <field name="id" invisible="1"/>
+                                                < string="Start" icon="gtk-redo" name="action_start_survey" type="object"/>
+                                            </tree>
+                                        </field>
+                                    </t>
+                                </div>
+                                <div>
+                                    <a type="object" name="open_spend_money">Send Money</a>
+                                </div>
+                                <div t-if="widget.editable" class="o_project_kanban_colorpicker">
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                    </div>
+
+                            </div>
+                        </div>
+                        <div class="row o_kanban_card_settings">
+                            <!--<div class="col-xs-6">
+                                <a type="object" name="toggle_favorite"><i t-att-class="(record.show_on_dashboard.raw_value ? 'oe_star_on' : 'oe_star_off') + ' fa fa-star o_dashboard_star'" title="Click to add/remove from favorite"></i></a>
+                            </div> -->
+                            <div class="col-xs-6 text-right">
+                                <a t-if="widget.editable" type="edit">Settings</a>
+                            </div>
+                        </div>
+                    </t>
+
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="open_quality_dashboard_kanban" model="ir.actions.act_window">
+        <field name="name">Quality</field>
+        <field name="res_model">bc_quality.control_procedure</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="usage">menu</field>
+        <field name="context">{'search_default_dashboard':1}</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p>
+                This Dashboard helps you manage your quality system..
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="menu_quality" name="Quality"/>
+    <menuitem id="menu_board_quality" name="Dashboard" action="open_quality_dashboard_kanban" parent="menu_quality"
+              sequence="1"/>
+</odoo>

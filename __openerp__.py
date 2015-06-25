@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-GURBA
 {
     'name' : 'BC Quality',
     'version' : '1.0',
@@ -10,15 +9,10 @@ BC Quality
 
     This module is being developed""",
     'depends' : [
-        'mail',
-        'email_template',
-        'board',
+        'survey',
         'base'
     ],
-    'data' : ['views/quality_view.xml',
-              'views/partner_view.xml',
-              'quality_board.xml',
-              'workflow/workflow.xml',
-              'cron.xml'
+    'data' : ['views/quality_dashboard.xml',
+              'views/control_procedure_view.xml',
 	 ]
 }
