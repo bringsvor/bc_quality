@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="survey_tree_lastcomplete">
+            <field name="name">Tree view for survey</field>
+            <field name="model">survey.survey</field>
+            <field name="inherit_id" ref="survey.survey_tree" />
+             <field name="arch" type="xml">
+                <field name="tot_comp_survey" position="after">
+                    <field name="last_completed"/>
+                </field>
+            </field>
+        </record>
+        </data>
+    </openerp>
+

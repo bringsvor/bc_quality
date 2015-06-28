@@ -100,21 +100,15 @@
                                 <div>
                                     <t t-foreach="dashboard.registration_forms" t-as="f">
                                         <a href="f">Take survey</a>
-                                        <field name="registration_forms">
-                                            <tree string="hei" name="hei">
-                                                <field name="id" invisible="1"/>
-                                                < string="Start" icon="gtk-redo" name="action_start_survey" type="object"/>
-                                            </tree>
-                                        </field>
                                     </t>
                                 </div>
                                 <div>
-                                    <a type="object" name="open_spend_money">Send Money</a>
+                                    <a type="object" name="notify_responsible">Notify responsible</a>
                                 </div>
-                                <div t-if="widget.editable" class="o_project_kanban_colorpicker">
+                                <!--<div t-if="widget.editable" class="o_project_kanban_colorpicker">
                                         <ul class="oe_kanban_colorpicker" data-field="color"/>
                                     </div>
-
+                                -->
                             </div>
                         </div>
                         <div class="row o_kanban_card_settings">

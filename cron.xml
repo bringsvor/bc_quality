@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+
+        <record id="bc_quality_cron_email_template" model="mail.template">
+            <field name="name">Procedure execution reminder</field>
+            <!-- <field name="model_id" ref="base.model_res_partner"/> -->
+            <!-- <field name="model_id" ref="bc_quality.model_control_procedure" /> -->
+            <field name="model">bc_quality.control_procedure</field>
+            <field name="email_from">${(object.responsible.email or '')|safe}</field>
+            <field name="subject">Procedure execution reminder ${user.company_id.name}</field>
+            <field name="email_to">${object.responsible.email|safe}</field>
+            <field name="lang">${object.lang}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+Hello ${object.name},
+
+You have the following procedures that have to be executed within the next two week period:
+
+% macro result_table(values):
+
+    % for result in values:
+       <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+                &nbsp;&nbsp;<strong>REFERENCES</strong><br />
+                &nbsp;&nbsp;Procedure due date: <strong>${result.performed}</strong><br />
+                &nbsp;&nbsp;Procedure name: <strong><a href="${ctx["base_url"]}/#action=${ctx["action_id"]}&id=${result.id}&view_type=form">${result.name}</a></strong><br />
+       </p>
+    % endfor
+% endmacro
+
+
+
+${result_table(ctx['results'])}
+
+
+Gjedna
+            ]]></field>
+        </record>
+
+
+        <record id="bc_quality_cron_sms_template" model="keysms.template">
+            <field name="name">Procedure execution reminder SMS</field>
+            <field name="subject">Procedure execution reminder ${user.company_id.name}</field>
+            <field name="mobile_to">${object.mobile|safe}</field>
+            <field name="lang">${object.lang}</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body"><![CDATA[Hello ${object.responsible.name}. You have to execute this: ${object.name}, no later than ${object.next_date} Click here: ${object.registration_forms[0].public_url}
+            Regards ${object.responsible.company_id.name}]]></field>
+            <field name="body_html"><![CDATA[
+Hello ${object.responsible.name}. You have to execute this: ${object.name}, <a href="{object.something.public_url}">here</a>
+            ]]></field>
+        </record>
+
+
+        <record model="ir.cron" id="bc_quality_reminder_cron">
+            <field name="name">Procedure execution reminder</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model" eval="'bc_quality.procedure'"/>
+            <field name="function" eval="'cron_send_reminder'"/>
+            <field name="args" eval="'()'" />
+        </record>
+
+    </data>
+    </openerp>
