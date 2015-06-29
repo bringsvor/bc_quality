@@ -74,11 +74,17 @@ class control_procedure(models.Model):
 
     @api.one
     def open_action(self):
-        assert len(self.registration_forms) > 0
-        return self.registration_forms[0].action_start_survey()
+        if len(self.registration_forms)>0:
+	        return self.registration_forms[0].action_start_survey()
+
 
     @api.one
     def _calc_next_date(self):
+	if not self.last_date:
+		# This has never happened.
+		self.next_date = fields.Date.today()
+		return
+
         last = fields.Date.from_string(self.last_date)
         calc_next = last + timedelta(days=FREQUENCIES_DAYS[self.frequency])
         if calc_next < date.today():
