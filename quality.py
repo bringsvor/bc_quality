@@ -168,3 +168,24 @@ class control_procedure(models.Model):
             else:
                 user_id = procedure.responsible.id
                 template.send_mail(procedure.id, force_send=True)
+
+
+    @api.multi
+    def open_action_with_context(self):
+        action_name = self.env.context.get('action_name', False)
+        if not action_name:
+            return False
+
+        if len(self.registration_forms)>0:
+            regform = self.registration_forms[0]
+        ctx = dict(self.env.context, default_survey_id=regform.id)
+        if ctx.get('search_default_survey', False):
+            ctx.update(search_default_survey_id=regform.id)
+        ir_model_obj = self.pool['ir.model.data']
+        model, action_id = ir_model_obj.get_object_reference(self._cr, self._uid, 'bc_quality', action_name)
+        action = self.pool[model].read(self._cr, self._uid, action_id, context=self._context)
+        action['context'] = ctx
+        if ctx.get('use_domain', False):
+            action['domain'] = ['|', ('survey_id', '=', self.id), ('survey_id', '=', False)]
+            action['name'] += ' for procedure '+self.name
+        return action

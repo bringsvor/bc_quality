@@ -15,3 +15,14 @@ class survey_survey(models.Model):
                 survey.last_completed = last_completed_survey[0].date_create
 
     last_completed = fields.Date('Last completed', compute='_get_last_completed')
+
+
+class survey_user_input(models.Model):
+    _name = "survey.user_input"
+    _inherit = "survey.user_input"
+
+    approval_state = fields.Selection([('new', 'New'),
+                ('rejected', 'Rejected'),
+                ('ok', 'Ok'),
+                ('error', 'Error')
+        ], default='new')

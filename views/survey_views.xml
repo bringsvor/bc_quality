@@ -11,6 +11,48 @@
                 </field>
             </field>
         </record>
+
+
+
+        <record model="ir.ui.view" id="survey_tree_lastcomplete">
+            <field name="name">Tree view user input to survey</field>
+            <field name="model">survey.user_input</field>
+            <field name="inherit_id" ref="survey.survey_user_input_tree" />
+             <field name="arch" type="xml">
+                <field name="quizz_score" position="replace">
+                    <field name="approval_state"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_survey_user_input_search" model="ir.ui.view">
+            <field name="name">survey.user_input_search_view</field>
+            <field name="model">survey.user_input</field>
+            <field name="arch" type="xml">
+                <search string="Survey">
+                        <field name="survey_id"/>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_survey_user_input" model="ir.actions.act_window">
+            <field name="name">User Input</field>
+            <field name="res_model">survey.user_input</field>
+            <field name="view_type">tree</field>
+            <field name="view_mode">tree,form</field>
+            <!-- intern<field name="search_view_id" ref="view_survey_user_input_search"/> -->
+            <field name="search_view_id" ref="survey.survey_user_input_search"/>
+            <!-- <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a reconciliation models.
+              </p><p>
+                Those can be used to quickly create a journal items when reconciling
+                a bank statement or an account.
+              </p>
+            </field> -->
+        </record>
+
+
         </data>
     </openerp>
 

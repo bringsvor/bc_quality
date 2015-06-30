@@ -98,6 +98,10 @@
                                     <span>New</span>
                                 </div>
                                 <div>
+                                    <a type="object" name="open_action_with_context" context="{'action_name': 'action_survey_user_input', 'use_domain': True}" groups="account.group_account_manager">Results</a>
+                                </div>
+
+                                <div>
                                     <t t-foreach="dashboard.registration_forms" t-as="f">
                                         <a href="f">Take survey</a>
                                     </t>
@@ -105,6 +109,7 @@
                                 <div>
                                     <a type="object" name="notify_responsible">Notify responsible</a>
                                 </div>
+
                                 <!--<div t-if="widget.editable" class="o_project_kanban_colorpicker">
                                         <ul class="oe_kanban_colorpicker" data-field="color"/>
                                     </div>
@@ -146,4 +151,11 @@
     <menuitem id="menu_quality" name="Quality"/>
     <menuitem id="menu_board_quality" name="Dashboard" action="open_quality_dashboard_kanban" parent="menu_quality"
               sequence="1"/>
+
+<!--
+    <menuitem id="menu_quality_results" name="Results2" action="survey.action_survey_user_input" parent="menu_quality"
+              sequence="2"/>
+-->
+    <menuitem id="menu_quality_results" name="Results" action="action_survey_user_input" parent="menu_quality"
+              sequence="2"/>
 </odoo>
