@@ -21,8 +21,8 @@
              <field name="arch" type="xml">
                 <field name="quizz_score" position="replace">
                     <field name="approval_state"/>
-                    <button string="Approve" icon="gtk-redo" name="action_approve_survey" type="object"/>
-                    <button string="Error" icon="gtk-go-forward" name="action_error_survey" type="object"/>
+                    <!--<button string="Approve" icon="gtk-redo" name="action_approve_survey" type="object"/>
+                    <button string="Error" icon="gtk-go-forward" name="action_error_survey" type="object"/> -->
                 </field>
             </field>
         </record>
